@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 void xgets(char*p)
 {
     scanf("%c",p);
@@ -13,51 +14,60 @@ void xgets(char*p)
         xgets(p);
     }
 }
-int xstrlen(char*p)
+int xstrlen(char*q)
 {
-    static int l=0;
-    if(*p=='\0')
+    int l=0;
+    while(*q!='\0')
     {
-        printf("the len of the given string is %d",l);
-    }
-    else
-    {
+        q++;
         l++;
-        p++;
-        xstrlen(p);
     }
     return(l);
 }
 void xstrlwr(char*p)
 {
+    char *q=p;
     while(*p!='\0')
     {
         if(*p>=65&&*p<=90)
         {
-            *p=*p+54;
+            *p=*p+32;
         }
         p++;
     }
-    printf("%s",p);
+    printf("%s",q);
 }
 void xstrupr(char*p)
 {
+    char *q=p;
     while(*p!='\0')
     {
-        if(*p>=119&&*p<=122)
+        if(*p>=97&&*p<=122)
         {
-            *p=*p-54;
+            *p=*p-32;
         }
         p++;
     }
-    printf("%s",p);
+    printf("%s",q);
 }
-/*void xstrcat(char*t,char*s)///
+void xstrcat(char*t,char*s)
 {
-
-}*/
+    int l;
+    char *q=s;
+    l=xstrlen(s);
+    s=s+l;
+    while(*t!='\0')
+    {
+        *s=*t;
+        s++;
+        t++;
+    }
+    *s='\0';
+    printf("%s\n",q);
+}
 void xstrcpy(char*t,char*s)
 {
+    char *p=t,*q=s;
     while(*s!='\0')
     {
         *t=*s;
@@ -65,12 +75,12 @@ void xstrcpy(char*t,char*s)
         s++;
     }
     *t='\0';
-    printf("the source is %s and target is %s",s,t);
+    printf("the source is %s and target is %s",q,p);
 }
 void xstrcmp(char*t,char*s)
 {
     int m=0;
-    while(*s!='\0')
+    while(*s!='\0')//loop doesn't mean that you have to increment the value then only they will implement if you not give any value they will keep rotating on the same place.
     {
         if(*s==*t)
         {
@@ -80,9 +90,10 @@ void xstrcmp(char*t,char*s)
         else
         {
             m++;
+            break;
         }
     }
-    printf("If m=0 then both are same and if it is non zer then they are different.\n");
+    printf("If m=0 then both are same and if it is non zero then they are different.\n");
     printf("the value of m is %d",m);
 }
 /*void xstrcmpi(char*t,char*s)///
@@ -91,19 +102,26 @@ void xstrcmp(char*t,char*s)
 }*/
 void xstrchr(char c,char *p)
 {
-    int m=0;
+    char *q=p;
+    int m=1,l;
+    l=xstrlen(p);
     while(*p!='\0')
     {
         if(c==*p)
         {
-            printf("the character %c is found at %d location of string %s\n",c,m,p);
+            printf("the character %c is found at %d location of string %s\n",c,m,q);
+            break;
         }
         else
         {
             m++;
+            p++;
         }
     }
-    printf("Element not found\n");
+    if(m>l)
+    {
+        printf("Element is not found");
+    }
 }
 /*void xstrstr(char*s,char *p)///
 {
@@ -125,7 +143,8 @@ int main()
     char a[20];
     char tar[20];
     char *b,*u;
-    char ch,choice;
+    char ch;
+    int choice,j;
     b=a;
     u=tar;
     printf("Enter the string\t");
@@ -138,7 +157,8 @@ int main()
         switch(choice)
         {
             case 1:
-                xstrlen(b);
+                j=xstrlen(b);
+                printf("the len of the given string is %d",j);
                 break;
             case 2:
                 xstrlwr(b);
@@ -146,25 +166,26 @@ int main()
             case 3:
                 xstrupr(b);
                 break;
-            /*case 4:
+            case 4:
                 printf("Enter the target string \n");
+                fflush(stdin);
                 xgets(u);
-                printf("This is what you entered %s",u);
+                printf("This is what you entered %s\n",u);
                 xstrcat(u,b);
-                break;*/
+                break;
             case 5:
                 printf("Enter the target string \n");
                 fflush(stdin);
                 xgets(u);
-                printf("This is what you entered %s",u);
+                printf("This is what you entered %s\n",u);
                 xstrcpy(u,b);
                 break;
             case 6:
                 printf("Enter the target string \n");
                 fflush(stdin);
                 xgets(u);
-                printf("This is what you entered %s",u);
-                xstrcmp(u,b);
+                printf("This is what you entered %s\n",u);
+                xstrcmp(b,u);
                 break;
             case 7:
                 printf("this is source string %s\n",b);
